@@ -28,7 +28,7 @@ class Ship:
                                                     #the top left corner of the screen is (0,0)
             self.x -= self.settings.ship_speed
         
-        self.rect.x = self.x #update the ships position from self.x to self.rect.x becuase that controls the position of the ship
+        self.rect.x = self.x #update the ships position from self.x to self.rect.x because that controls the position of the ship
 
     def blitme(self): #puts the ship to the screen at the location specified by self.rect
         'draw the ship at its current location'
