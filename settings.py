@@ -15,3 +15,4 @@ class Settings:
         self.bullet_width = 3 #width of 3 pixels
         self.bullet_height = 15 #height of 15 pixels
         self.bullet_color = (60, 60, 60) #dark gray bullet
+        self.bullets_allowed = 3 #limit the number of bullets fired at one time
