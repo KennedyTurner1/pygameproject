@@ -9,9 +9,10 @@ class Settings:
 
         #ship settings
         self.ship_speed = 1.5 #speed that the ship can move
+        self.ship_limit = 3 #number of ships allowed before you die
 
         #bullet settings
-        self.bullet_speed = 1.0 #bullets will travel slower than the ship
+        self.bullet_speed = 1.5 #bullets will travel slower than the ship
         self.bullet_width = 3 #width of 3 pixels
         self.bullet_height = 15 #height of 15 pixels
         self.bullet_color = (60, 60, 60) #dark gray bullet
