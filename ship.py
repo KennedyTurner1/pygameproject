@@ -36,5 +36,5 @@ class Ship:
 
     def center_ship(self):
         '''center the ship on the screen'''
-        self.rect.midbottom = self.screen_rect.midbottom #make the screen's midbottom the smae position as our ship
+        self.rect.midbottom = self.screen_rect.midbottom #make the screen's midbottom the same position as our ship
         self.x = float(self.rect.x) #update the position of our x position

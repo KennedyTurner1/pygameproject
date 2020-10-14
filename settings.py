@@ -19,7 +19,7 @@ class Settings:
         self.bullets_allowed = 3 #limit the number of bullets fired at one time
 
         #alien settings
-        self.alien_speed = 1.0 #alien movement speed
+        self.alien_speed = 5.0 #alien movement speed
         self.fleet_drop_speed = 10 #this is the speed the alien will drop when it hits the right edge of the screen
         self.fleet_direction = 1 #default is right
                                  #fleet direction of 1 represents right, -1 represents left
