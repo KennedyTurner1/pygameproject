@@ -161,7 +161,7 @@ class AlienInvasion:
         if collisions:                                          #if the dictionary exists
             for aliens in collisions.values():                   #for aliens in the collision (group)    
                 self.stats.score += self.settings.alien_points * len(aliens) #take the points and add them to the score multiplied by how many aliens you hit
-                self.sb.prep_score()                                #call prep_score to create a new image for the new score to pass
+                self.sb.prep_score()                            #call prep_score to create a new image for the new score to pass
                 self.sb.check_high_score()                      #check to see if the score is the high score ******************** run the game
         
         ''''if all the aliens in the group are gone'''
@@ -173,7 +173,7 @@ class AlienInvasion:
             
             '''increase the level'''
             self.stats.level += 1                               #when a new fleet is created, increase the level
-            self.sb.prep_level                                  #draw the new image with the new level
+            self.sb.prep_level()                                #draw the new image with the new level 
     
     def _update_aliens(self):
         '''check if the fleet is at an edge, then
