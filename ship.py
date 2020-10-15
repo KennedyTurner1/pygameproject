@@ -1,15 +1,17 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Ship:
+class Ship(Sprite):
     'a class to manage the ship'
 
     def __init__(self, ai_game): #self reference and the instance of the alien invasion game reference
                                 #gives Ship access to all things defined in Alien Invasion
         'initialize the ship and set its starting position'
+        super().__init__() #the ship has to inherit from sprite()
         self.screen = ai_game.screen #assign screen to an attribute of Ship 
         self.settings = ai_game.settings #assign settings as an attribute of Ship  
         self.screen_rect = ai_game.screen.get_rect() #all elements are treated as rectangles... ship and screen are treated as rects
-                                                    #getting the location of the ship on the screen *******************************
+                                                    #getting the location of the ship on the screen 
 
         self.image = pygame.image.load('images/ship.bmp') #loads the image
         self.rect = self.image.get_rect() #give the location of our ship 

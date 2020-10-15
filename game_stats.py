@@ -4,6 +4,7 @@ class GameStats:
         '''initialize statistics'''
         self.settings = ai_game.settings #the game's settings are our settings
         self.reset_stats() #reset the stats each time a player runs a new game
+        self.high_score = 0 #the high score should never be reset at each game
 
         '''start AlienInvasion game in an inactive state'''
         self.game_active = False #start the game inactive so a player can press a play button to change the flag state
@@ -12,3 +13,4 @@ class GameStats:
         '''initialize statistics that can change during the game'''
         self.ships_left = self.settings.ship_limit #the number of ships left is defined in the settings, set it back to 3
         self.score = 0  #reset the score each time a new game starts, not just one time (not in __init__)
+        self.level = 1 #reset the level at the start of each game

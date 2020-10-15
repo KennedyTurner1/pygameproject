@@ -113,21 +113,23 @@ class AlienInvasion:
     
     def _check_play_button(self, mouse_pos):
         '''start a new game when the player clicks Play'''
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos) #if the play button position overlaps the x&y coordinate positions ********************************************
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos) #if the play button position overlaps the x&y coordinate positions 
         if button_clicked and not self.stats.game_active:       #if button clicked and the stats are set to false (game not started)
             self.settings.initalize_dynamic_settings()          #make the speed of the game elements reset to their original speed
-            self.stats.reset_stats()                            #reset the number of ships to 3 
+            self.stats.reset_stats()                            #reset the number of ships to 3, level to 1, score to 0
             self.stats.game_active = True                       #turn the game on, button will go away
-            self.sb.prep_score()                                #resets the score to 0 at the beginning of a new game
+            self.sb.prep_score()                                #passes the score to an image
+            self.sb.prep_level()                                #passes the level to an image
+            self.sb.prep_ships()                                #show the player how many ships they start with (3)
             pygame.mouse.set_visible(False)                     #hide the mouse curser after the game begins
         
-        '''get rid of any remaining aliens and bullets'''
-        self.aliens.empty()
-        self.bullets.empty()
+            '''get rid of any remaining aliens and bullets'''
+            self.aliens.empty()                                 #empty aliens group
+            self.bullets.empty()                                #empty the bullets group
 
-        '''create a new fleet and center the ship'''
-        self._create_fleet()
-        self.ship.center_ship()
+            '''create a new fleet and center the ship'''
+            self._create_fleet()                                #create a new fleet
+            self.ship.center_ship()                             #center the ship
 
     
     def _fire_bullet(self):
@@ -154,17 +156,24 @@ class AlienInvasion:
                                                                 #see if they have collided, True statements to delete if True
                                                                 #True = delete, they make a key value pair of collisions
                                                                 #key is bullet, value is alien 
-
+        
+        '''if a bullet and an alien collided'''
         if collisions:                                          #if the dictionary exists
             for aliens in collisions.values():                   #for aliens in the collision (group)    
                 self.stats.score += self.settings.alien_points * len(aliens) #take the points and add them to the score multiplied by how many aliens you hit
                 self.sb.prep_score()                                #call prep_score to create a new image for the new score to pass
+                self.sb.check_high_score()                      #check to see if the score is the high score ******************** run the game
         
+        ''''if all the aliens in the group are gone'''
         if not self.aliens:                                     #if not statements execute a block of code when the statement evaluates to False                                                      
             '''destory existing bullets and create new fleet'''
-            self.bullets.empty()                                #use the method empty() to empty the bullets group ************************
+            self.bullets.empty()                                #use the method empty() to empty the bullets group 
             self._create_fleet()                                #create a new fleet
             self.settings.increase_speed()                      #increase the speed of the entire game when a new fleet is created
+            
+            '''increase the level'''
+            self.stats.level += 1                               #when a new fleet is created, increase the level
+            self.sb.prep_level                                  #draw the new image with the new level
     
     def _update_aliens(self):
         '''check if the fleet is at an edge, then
@@ -186,7 +195,7 @@ class AlienInvasion:
     def _check_aliens_bottom(self):                             
         '''check to see if any aliens 
         have reached the bottom of the screen'''
-        screen_rect = self.screen.get_rect()                    #get the position of the *****************************************************
+        screen_rect = self.screen.get_rect()                    #get the position of the alien from where it is on the screen
         for alien in self.aliens.sprites():                     #for every alien in the group
             if alien.rect.bottom >= screen_rect.bottom:         #if the alien's bottom value is greater than the screen's bottom value
                 self._ship_hit()                                #treat it like a ship was hit
@@ -202,6 +211,7 @@ class AlienInvasion:
         '''respond to the ship being hit by an alien'''
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1                          #decrease the ships left by one
+            self.sb.prep_ships()                                #display one less ship on the screen
 
             '''get rid of the current aliens and bullets groups'''
             self.aliens.empty()
