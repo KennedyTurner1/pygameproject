@@ -3,6 +3,7 @@ from time import sleep #pause the game for a moment when the ship is hit
 import pygame
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -23,6 +24,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion") #set the caption
 
         self.stats  = GameStats(self)                           #makes an instance of the stastics for the current game
+        self.sb = Scoreboard(self)                              #make an instance of the scoreboard for the current game
         self.ship = Ship(self)                                  #makes an instance of one Ship, the same ship per game 
         self.bullets = pygame.sprite.Group()                    #makes an instance of bullets group 
         self.aliens = pygame.sprite.Group()                     #make an instance of one fleet
@@ -113,8 +115,11 @@ class AlienInvasion:
         '''start a new game when the player clicks Play'''
         button_clicked = self.play_button.rect.collidepoint(mouse_pos) #if the play button position overlaps the x&y coordinate positions ********************************************
         if button_clicked and not self.stats.game_active:       #if button clicked and the stats are set to false (game not started)
+            self.settings.initalize_dynamic_settings()          #make the speed of the game elements reset to their original speed
             self.stats.reset_stats()                            #reset the number of ships to 3 
             self.stats.game_active = True                       #turn the game on, button will go away
+            self.sb.prep_score()                                #resets the score to 0 at the beginning of a new game
+            pygame.mouse.set_visible(False)                     #hide the mouse curser after the game begins
         
         '''get rid of any remaining aliens and bullets'''
         self.aliens.empty()
@@ -147,14 +152,19 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True) 
                                                                 #compares all the positions of the bullets and the aliens to 
                                                                 #see if they have collided, True statements to delete if True
-                                                                #True = delete, they make a key value pair 
+                                                                #True = delete, they make a key value pair of collisions
                                                                 #key is bullet, value is alien 
 
+        if collisions:                                          #if the dictionary exists
+            for aliens in collisions.values():                   #for aliens in the collision (group)    
+                self.stats.score += self.settings.alien_points * len(aliens) #take the points and add them to the score multiplied by how many aliens you hit
+                self.sb.prep_score()                                #call prep_score to create a new image for the new score to pass
         
         if not self.aliens:                                     #if not statements execute a block of code when the statement evaluates to False                                                      
             '''destory existing bullets and create new fleet'''
             self.bullets.empty()                                #use the method empty() to empty the bullets group ************************
             self._create_fleet()                                #create a new fleet
+            self.settings.increase_speed()                      #increase the speed of the entire game when a new fleet is created
     
     def _update_aliens(self):
         '''check if the fleet is at an edge, then
@@ -205,6 +215,7 @@ class AlienInvasion:
                                                                #so the player can see the alien hit the ship
         else:
             self.stats.game_active = False                     #change the Flag to False to stop the stats of the game.
+            pygame.mouse.set_visible(True)                     #turn the Flag back to true so the mouse becomes visible
 
     def _update_screen(self):
         '''update the images on the screen, flip to the newest screen'''
@@ -216,6 +227,9 @@ class AlienInvasion:
 
         self.aliens.draw(self.screen)                          #when you call draw, it asks for one argument, the screen it appears on
 
+        self.sb.show_score()                                   #we call show score just before we draw the play button 
+
+        '''draw the play button if the game is inactive'''     
         if not self.stats.game_active:                         #if the game is not active (False)
             self.play_button.draw_button()                     #draw the play button 
 
