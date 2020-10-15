@@ -31,7 +31,7 @@ class Settings:
         '''initialize the settings that change throughout the game'''
         self.ship_speed = 1.5 #speed that the ship can move
         self.bullet_speed = 3.0 #bullets will travel slower than the ship
-        self.alien_speed = 5.0 #alien movement speed
+        self.alien_speed = 2.0 #alien movement speed
         self.fleet_direction = 1 #default is right
                                  #fleet direction of 1 represents right, -1 represents left
         self.alien_points = 50 #each time an alien is hit, increase the points by 50
