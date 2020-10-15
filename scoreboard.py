@@ -24,10 +24,9 @@ class Scoreboard:
 
     def prep_score(self):
         '''Turn the score into a rendered image'''
-        score_str = str(self.stats.score) #take the score as an int and turn it into a string 
-        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color) #take the string and pass it as an image obj
         rounded_score = round(self.stats.score, -1) #pass a negative number and it will round to be nearest 10
         score_str = "{:,}".format(rounded_score) #this tells python to insert commas into the rounded score
+        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color) #take the string and pass it as an image obj
 
         '''display the score at the top right of the screen'''
         self.score_rect = self.score_image.get_rect() #get the current position of the image and set it as the score-rect position
@@ -65,8 +64,8 @@ class Scoreboard:
             self.ships.add(ship) #add the ship to the group
 
     def check_high_score(self):
-        '''check to see if there is a new high score''' #***************************************************************
-        if self.stats.score > self.stats.high_score: #if the score is less than the high score 
+        '''check to see if there is a new high score'''
+        if self.stats.score > self.stats.high_score: #if the score is greater than the high score 
             self.stats.high_score = self.stats.score #the score becomes the high score
             self.prep_high_score() #prep the high score to be passed as the new image
     

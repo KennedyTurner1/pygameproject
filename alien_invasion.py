@@ -162,7 +162,7 @@ class AlienInvasion:
             for aliens in collisions.values():                   #for aliens in the collision (group)    
                 self.stats.score += self.settings.alien_points * len(aliens) #take the points and add them to the score multiplied by how many aliens you hit
                 self.sb.prep_score()                            #call prep_score to create a new image for the new score to pass
-                self.sb.check_high_score()                      #check to see if the score is the high score ******************** run the game
+                self.sb.check_high_score()                      #check to see if the score is the high score 
         
         ''''if all the aliens in the group are gone'''
         if not self.aliens:                                     #if not statements execute a block of code when the statement evaluates to False                                                      
